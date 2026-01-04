@@ -174,43 +174,52 @@ While the specification should remain technology-agnostic, these recommendations
 
 ### Recommended Technology Stack
 
-- **Static Site Generator**:
-  - Next.js with static export (`output: 'export'`) - Best for React + shadcn/ui integration
-  - Astro - Excellent performance, supports React components, can use shadcn/ui
-  - Alternative: 11ty with custom components, but less ideal for shadcn/ui
+- **Static Site Generator**: **Astro** (Primary Choice)
+  - Ships zero JavaScript by default (only what you explicitly need)
+  - "Islands architecture" - interactive components only where needed
+  - Built-in support for React components (can use shadcn/ui)
+  - Excellent markdown/MDX support out of the box
+  - Perfect for content-focused sites
+  - Alternative: Next.js with static export, but heavier bundle size
 
-- **UI/Design System**:
-  - shadcn/ui - Component library built on Radix UI + Tailwind CSS
+- **UI/Design System**: **shadcn/ui**
+  - Component library built on Radix UI + Tailwind CSS
   - Benefits: Accessible by default (Radix primitives), customizable, copy-paste components
   - Includes: Typography, buttons, cards, navigation, all with WCAG compliance built-in
+  - Works perfectly with Astro using React integration
 
 - **Styling**:
   - Tailwind CSS (required for shadcn/ui)
   - Custom CSS for typography and reading experience optimization
 
 - **Markdown Processing**:
-  - MDX (for Next.js/Astro) - Allows React components in markdown
-  - Syntax highlighting: Shiki or Prism for code blocks
-  - Frontmatter parsing: gray-matter
+  - Astro's built-in markdown support (or MDX for components in content)
+  - Syntax highlighting: Shiki (built into Astro) for beautiful code blocks
+  - Frontmatter parsing: Built into Astro's content collections
 
 - **Image Optimization**:
-  - Next.js Image component (if using Next.js)
-  - Sharp for image processing
-  - WebP/AVIF generation at build time
+  - Astro's `<Image>` component (built-in optimization)
+  - Sharp (included with Astro)
+  - Automatic WebP/AVIF generation
 
-- **Hosting & Deployment**:
-  - Vercel (optimized for Next.js) or Cloudflare Pages (fastest edge network)
-  - Automatic HTTPS, global CDN, instant cache invalidation
+- **Hosting & Deployment**: **GitHub Pages** (Free!)
+  - Free static hosting for public repositories
+  - Custom domain support with free SSL
+  - Global CDN (Fastly)
+  - Deploy via GitHub Actions (automatic on push)
+  - Alternatives: Cloudflare Pages, Netlify (also free, faster CDN but GitHub Pages preferred)
 
-- **Version Control**: All content and code in Git for portability and history
+- **Version Control**: Git + GitHub (already required for GitHub Pages)
 
-### Why This Stack?
+### Why Astro + GitHub Pages?
 
-1. **Extremely Fast**: 100% static HTML/CSS/JS, edge-deployed, zero server processing
-2. **Great DX**: Hot reload, TypeScript support, component-based development
-3. **shadcn/ui Integration**: Perfect fit for React-based SSG (Next.js/Astro)
-4. **Accessible**: shadcn/ui built on Radix UI primitives with WCAG compliance
-5. **Simple & Maintainable**: Copy-paste components, no complex abstraction layers
+1. **Extremely Fast**: Near-zero JavaScript by default, only loads interactive components when needed
+2. **Free Forever**: GitHub Pages is 100% free for public repos, no usage limits for static sites
+3. **Perfect for Blogs**: Astro is specifically designed for content sites
+4. **shadcn/ui Compatible**: Use React islands for interactive UI components
+5. **Simple Deployment**: Push to GitHub → Auto-deploy via Actions
+6. **Great DX**: Hot reload, TypeScript, Tailwind, content collections API
+7. **Smaller Bundles**: Astro typically produces smaller bundles than Next.js for static sites
 
 ## Next Steps
 
