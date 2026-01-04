@@ -2,8 +2,9 @@
 
 **Feature Branch**: `001-blog-foundation`
 **Created**: 2026-01-04
+**Updated**: 2026-01-04
 **Status**: Draft
-**Input**: Create a personal blog with markdown-based content, fast performance, and excellent accessibility
+**Input**: Create a static personal blog with markdown-based content, extremely fast loading, simple/usable design using shadcn/ui or similar design system
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -19,7 +20,8 @@ As a reader, I want to browse and read blog posts in a clean, fast-loading inter
 
 1. **Given** I navigate to the blog homepage, **When** the page loads, **Then** I see a list of published blog posts with titles, dates, and excerpts
 2. **Given** I click on a blog post title, **When** the post page loads, **Then** I see the full post content rendered from markdown with proper formatting
-3. **Given** I'm viewing a blog post, **When** I check the page load time, **Then** the First Contentful Paint is under 1.5 seconds on a 3G connection
+3. **Given** I'm viewing a blog post, **When** I check the page load time, **Then** the First Contentful Paint is under 1 second on 4G and under 1.5 seconds on 3G
+4. **Given** the blog is fully static, **When** I view any page, **Then** it loads instantly from CDN edge locations with no server processing
 
 ---
 
@@ -112,14 +114,26 @@ As a reader, I want to subscribe to the blog via RSS so that I can receive updat
 - **FR-011**: System MUST use semantic HTML for proper accessibility
 - **FR-012**: System MUST meet WCAG 2.1 AA color contrast requirements
 
+### Design & UX Requirements
+
+- **DR-001**: System MUST use a clean, minimal design that doesn't distract from content
+- **DR-002**: System MUST use a consistent design system with reusable components (shadcn/ui or similar)
+- **DR-003**: System MUST have clear typography hierarchy optimized for reading
+- **DR-004**: System MUST use readable font sizes (minimum 16px base, 18-20px for body text)
+- **DR-005**: System MUST have sufficient line height and line length for comfortable reading (60-75 characters per line)
+- **DR-006**: System MUST provide clear visual feedback for interactive elements (buttons, links, navigation)
+
 ### Technical Requirements
 
-- **TR-001**: System MUST use static site generation for optimal performance
-- **TR-002**: System MUST achieve First Contentful Paint < 1.5s on 3G connections
-- **TR-003**: System MUST work without JavaScript for core reading functionality
-- **TR-004**: System MUST be mobile-first responsive design
-- **TR-005**: System MUST serve content over HTTPS
-- **TR-006**: System MUST have minimal third-party dependencies
+- **TR-001**: System MUST be 100% static (pre-rendered HTML/CSS/JS at build time, zero server-side processing)
+- **TR-002**: System MUST achieve First Contentful Paint < 1.0s on 4G and < 1.5s on 3G connections
+- **TR-003**: System MUST use a component-based design system (shadcn/ui or similar) for consistent, accessible UI
+- **TR-004**: System MUST work without JavaScript for core reading functionality (progressive enhancement)
+- **TR-005**: System MUST be mobile-first responsive design
+- **TR-006**: System MUST serve content over HTTPS from CDN edge locations
+- **TR-007**: System MUST have minimal third-party dependencies and small bundle sizes
+- **TR-008**: System MUST generate optimized, minified assets (HTML, CSS, JS, images)
+- **TR-009**: System MUST support modern image formats (WebP, AVIF) with fallbacks
 
 ### Key Entities
 
@@ -131,14 +145,17 @@ As a reader, I want to subscribe to the blog via RSS so that I can receive updat
 
 ### Measurable Outcomes
 
-- **SC-001**: First Contentful Paint achieves < 1.5 seconds on 3G connection (measured via Lighthouse)
-- **SC-002**: Blog achieves 100% keyboard navigation coverage (all interactive elements accessible via Tab)
-- **SC-003**: Blog passes WCAG 2.1 AA accessibility audit (measured via axe DevTools or WAVE)
-- **SC-004**: Blog achieves Lighthouse Performance score ≥ 90
-- **SC-005**: Blog achieves Lighthouse Accessibility score of 100
-- **SC-006**: Blog achieves Lighthouse SEO score ≥ 95
-- **SC-007**: All blog posts render correctly from markdown with proper heading hierarchy
-- **SC-008**: RSS feed validates successfully with W3C Feed Validator
+- **SC-001**: First Contentful Paint achieves < 1.0s on 4G and < 1.5s on 3G (measured via Lighthouse)
+- **SC-002**: Total page weight < 100KB for homepage (excluding images), < 200KB for article pages
+- **SC-003**: Blog achieves 100% keyboard navigation coverage (all interactive elements accessible via Tab)
+- **SC-004**: Blog passes WCAG 2.1 AA accessibility audit (measured via axe DevTools or WAVE)
+- **SC-005**: Blog achieves Lighthouse Performance score ≥ 95
+- **SC-006**: Blog achieves Lighthouse Accessibility score of 100
+- **SC-007**: Blog achieves Lighthouse SEO score ≥ 95
+- **SC-008**: Blog achieves Lighthouse Best Practices score ≥ 95
+- **SC-009**: All blog posts render correctly from markdown with proper heading hierarchy
+- **SC-010**: RSS feed validates successfully with W3C Feed Validator
+- **SC-011**: Design system components render consistently across major browsers (Chrome, Firefox, Safari, Edge)
 
 ## Out of Scope (for this iteration)
 
@@ -155,10 +172,45 @@ As a reader, I want to subscribe to the blog via RSS so that I can receive updat
 
 While the specification should remain technology-agnostic, these recommendations align with the Constitution's principles:
 
-- **Static Site Generator**: Consider tools like 11ty, Hugo, or Astro for performance and simplicity
-- **Styling**: Vanilla CSS or minimal framework (e.g., Tailwind) for maintainability
-- **Hosting**: Static hosting services (Netlify, Vercel, GitHub Pages, Cloudflare Pages)
+### Recommended Technology Stack
+
+- **Static Site Generator**:
+  - Next.js with static export (`output: 'export'`) - Best for React + shadcn/ui integration
+  - Astro - Excellent performance, supports React components, can use shadcn/ui
+  - Alternative: 11ty with custom components, but less ideal for shadcn/ui
+
+- **UI/Design System**:
+  - shadcn/ui - Component library built on Radix UI + Tailwind CSS
+  - Benefits: Accessible by default (Radix primitives), customizable, copy-paste components
+  - Includes: Typography, buttons, cards, navigation, all with WCAG compliance built-in
+
+- **Styling**:
+  - Tailwind CSS (required for shadcn/ui)
+  - Custom CSS for typography and reading experience optimization
+
+- **Markdown Processing**:
+  - MDX (for Next.js/Astro) - Allows React components in markdown
+  - Syntax highlighting: Shiki or Prism for code blocks
+  - Frontmatter parsing: gray-matter
+
+- **Image Optimization**:
+  - Next.js Image component (if using Next.js)
+  - Sharp for image processing
+  - WebP/AVIF generation at build time
+
+- **Hosting & Deployment**:
+  - Vercel (optimized for Next.js) or Cloudflare Pages (fastest edge network)
+  - Automatic HTTPS, global CDN, instant cache invalidation
+
 - **Version Control**: All content and code in Git for portability and history
+
+### Why This Stack?
+
+1. **Extremely Fast**: 100% static HTML/CSS/JS, edge-deployed, zero server processing
+2. **Great DX**: Hot reload, TypeScript support, component-based development
+3. **shadcn/ui Integration**: Perfect fit for React-based SSG (Next.js/Astro)
+4. **Accessible**: shadcn/ui built on Radix UI primitives with WCAG compliance
+5. **Simple & Maintainable**: Copy-paste components, no complex abstraction layers
 
 ## Next Steps
 
