@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="404 - Page Not Found"
+  description="The page you're looking for doesn't exist."
+>
+  <Header />
+
+  <main id="main-content" class="flex-1 flex items-center justify-center" role="main">
+    <div class="container mx-auto px-4 py-12 text-center max-w-2xl">
+      <h1 class="text-6xl font-bold mb-4">404</h1>
+      <p class="text-2xl mb-6">Page Not Found</p>
+
+      <p class="text-lg text-muted-foreground mb-8">
+        Sorry, the page you're looking for doesn't exist or has been moved.
+      </p>
+
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a
+          href="/blog/"
+          class="px-6 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium"
+        >
+          Go Home
+        </a>
+        <a
+          href="/blog/blog/"
+          class="px-6 py-3 rounded-lg border hover:bg-secondary transition-colors font-medium"
+        >
+          Browse Posts
+        </a>
+      </div>
+
+      <div class="mt-12">
+        <p class="text-sm text-muted-foreground mb-4">
+          Looking for something specific? Here are some helpful links:
+        </p>
+        <ul class="flex gap-4 justify-center text-sm">
+          <li>
+            <a href="/blog/about/" class="text-primary hover:underline">
+              About
+            </a>
+          </li>
+          <li>
+            <a href="/blog/rss.xml" class="text-primary hover:underline">
+              RSS Feed
+            </a>
+          </li>
+          <li>
+            <a href="/blog/sitemap.xml" class="text-primary hover:underline">
+              Sitemap
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
