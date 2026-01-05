@@ -1,0 +1,71 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { formatDate } from '../lib/formatDate';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  heroImage?: string;
+  heroImageAlt?: string;
+  tags?: string[];
+}
+
+const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, tags = [] } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={heroImage}>
+  <Header />
+
+  <main class="flex-1">
+    <article class="container mx-auto px-4 py-12 max-w-3xl">
+      {heroImage && (
+        <img
+          src={heroImage}
+          alt={heroImageAlt || title}
+          class="w-full h-64 object-cover rounded-lg mb-8"
+        />
+      )}
+
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">{title}</h1>
+
+        <div class="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
+          <time datetime={pubDate.toISOString()}>
+            {formatDate(pubDate)}
+          </time>
+
+          {updatedDate && (
+            <span>
+              Updated: <time datetime={updatedDate.toISOString()}>
+                {formatDate(updatedDate)}
+              </time>
+            </span>
+          )}
+        </div>
+
+        {tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <a
+                href={`/blog/blog/tag/${tag}/`}
+                class="px-3 py-1 text-sm rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+              >
+                {tag}
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <div class="prose prose-slate max-w-none">
+        <slot />
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

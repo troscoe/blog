@@ -1,0 +1,50 @@
+---
+import { formatDate } from '../lib/formatDate';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  slug: string;
+  tags?: string[];
+  heroImage?: string;
+}
+
+const { title, description, pubDate, slug, tags = [], heroImage } = Astro.props;
+---
+
+<article class="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+  {heroImage && (
+    <img
+      src={heroImage}
+      alt={title}
+      class="w-full h-48 object-cover"
+    />
+  )}
+
+  <div class="p-6">
+    <h2 class="text-2xl font-bold mb-2">
+      <a href={`/blog/blog/${slug}/`} class="hover:text-primary transition-colors">
+        {title}
+      </a>
+    </h2>
+
+    <time datetime={pubDate.toISOString()} class="text-sm text-muted-foreground block mb-3">
+      {formatDate(pubDate)}
+    </time>
+
+    <p class="text-muted-foreground mb-4">
+      {description}
+    </p>
+
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="px-2 py-1 text-xs rounded-full bg-secondary text-secondary-foreground">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+</article>

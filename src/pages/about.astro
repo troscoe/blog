@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Learn more about this blog and its technology stack"
+>
+  <Header />
+
+  <main class="flex-1">
+    <article class="container mx-auto px-4 py-12 max-w-3xl">
+      <h1 class="text-4xl font-bold mb-8">About This Blog</h1>
+
+      <div class="prose prose-slate max-w-none">
+        <p class="text-xl text-muted-foreground mb-6">
+          A modern, fast, and accessible blog built with cutting-edge web technologies.
+        </p>
+
+        <h2>Technology Stack</h2>
+
+        <p>This blog is built with performance and user experience as top priorities:</p>
+
+        <ul>
+          <li><strong>Astro 5.x</strong> - Zero JavaScript by default, islands architecture</li>
+          <li><strong>React 19.x</strong> - Interactive components only where needed</li>
+          <li><strong>shadcn/ui</strong> - Accessible, customizable UI components</li>
+          <li><strong>Tailwind CSS</strong> - Utility-first styling framework</li>
+          <li><strong>TypeScript</strong> - Type-safe development</li>
+        </ul>
+
+        <h2>Performance Goals</h2>
+
+        <p>This blog meets strict performance criteria:</p>
+
+        <ul>
+          <li>First Contentful Paint: &lt; 1.0s on 4G, &lt; 1.5s on 3G</li>
+          <li>Page weight: &lt; 100KB homepage, &lt; 200KB articles</li>
+          <li>Lighthouse Performance score: ≥ 95</li>
+          <li>Lighthouse Accessibility score: 100</li>
+        </ul>
+
+        <h2>Accessibility</h2>
+
+        <p>This blog follows WCAG 2.1 AA standards:</p>
+
+        <ul>
+          <li>Semantic HTML for proper structure</li>
+          <li>Keyboard-navigable interface</li>
+          <li>Screen reader friendly</li>
+          <li>Sufficient color contrast</li>
+          <li>Focus indicators on interactive elements</li>
+        </ul>
+
+        <h2>Open Source</h2>
+
+        <p>
+          This blog is built using open-source technologies and follows best practices
+          for modern web development. The goal is to demonstrate that fast, accessible,
+          and beautiful websites can be built without sacrificing developer experience.
+        </p>
+
+        <h2>Contact</h2>
+
+        <p>
+          Find the source code on <a href="https://github.com/troscoe/blog" target="_blank" rel="noopener noreferrer">GitHub</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
