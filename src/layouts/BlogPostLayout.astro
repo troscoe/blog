@@ -20,7 +20,7 @@ const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, tags 
 <BaseLayout title={title} description={description} image={heroImage}>
   <Header />
 
-  <main class="flex-1">
+  <main id="main-content" class="flex-1" role="main">
     <article class="container mx-auto px-4 py-12 max-w-3xl">
       {heroImage && (
         <img

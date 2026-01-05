@@ -57,14 +57,42 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Enhanced focus states for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Skip to content link for screen readers */
+  .skip-to-content {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md;
+  }
 }
 
 /* Typography for reading */
 @layer base {
   article {
     @apply prose prose-slate max-w-none;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.7;
+  }
+
+  /* Responsive typography */
+  @media (min-width: 640px) {
+    article {
+      font-size: 18px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    article {
+      font-size: 20px;
+      line-height: 1.8;
+    }
   }
 
   article p {
