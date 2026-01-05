@@ -12,9 +12,11 @@ interface Props {
   heroImage?: string;
   heroImageAlt?: string;
   tags?: string[];
+  prevPost?: any;
+  nextPost?: any;
 }
 
-const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, tags = [], prevPost, nextPost } = Astro.props;
 
 const articleUrl = new URL(Astro.url.pathname, Astro.site);
 
@@ -77,7 +79,7 @@ const structuredData = {
           <div class="flex flex-wrap gap-2">
             {tags.map((tag) => (
               <a
-                href={`/blog/blog/tag/${tag}/`}
+                href={`/blog/tag/${tag}/`}
                 class="px-3 py-1 text-sm rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
               >
                 {tag}
@@ -90,6 +92,35 @@ const structuredData = {
       <div class="prose prose-slate max-w-none">
         <slot />
       </div>
+
+      {(prevPost || nextPost) && (
+        <nav class="mt-12 pt-8 border-t" aria-label="Post navigation">
+          <div class="grid gap-4 md:grid-cols-2">
+            {prevPost && (
+              <a
+                href={`/blog/blog/${prevPost.slug}/`}
+                class="group flex flex-col p-4 rounded-lg border hover:border-primary transition-colors"
+              >
+                <span class="text-sm text-muted-foreground mb-1">← Previous</span>
+                <span class="font-medium group-hover:text-primary transition-colors">
+                  {prevPost.data.title}
+                </span>
+              </a>
+            )}
+            {nextPost && (
+              <a
+                href={`/blog/blog/${nextPost.slug}/`}
+                class={`group flex flex-col p-4 rounded-lg border hover:border-primary transition-colors ${!prevPost ? 'md:col-start-2' : ''}`}
+              >
+                <span class="text-sm text-muted-foreground mb-1 text-right">Next →</span>
+                <span class="font-medium group-hover:text-primary transition-colors text-right">
+                  {nextPost.data.title}
+                </span>
+              </a>
+            )}
+          </div>
+        </nav>
+      )}
     </article>
   </main>
 

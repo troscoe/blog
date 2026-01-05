@@ -7,13 +7,21 @@ export async function getStaticPaths() {
     return data.draft !== true;
   });
 
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  // Sort posts by date (newest first)
+  const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+  return sortedPosts.map((post, index) => {
+    const prevPost = index < sortedPosts.length - 1 ? sortedPosts[index + 1] : null;
+    const nextPost = index > 0 ? sortedPosts[index - 1] : null;
+
+    return {
+      params: { slug: post.slug },
+      props: { post, prevPost, nextPost },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await post.render();
 ---
 
@@ -25,6 +33,8 @@ const { Content } = await post.render();
   heroImage={post.data.heroImage}
   heroImageAlt={post.data.heroImageAlt}
   tags={post.data.tags}
+  prevPost={prevPost}
+  nextPost={nextPost}
 >
   <Content />
 </BlogPostLayout>
