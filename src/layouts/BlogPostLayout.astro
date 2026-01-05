@@ -15,9 +15,35 @@ interface Props {
 }
 
 const { title, description, pubDate, updatedDate, heroImage, heroImageAlt, tags = [] } = Astro.props;
+
+const articleUrl = new URL(Astro.url.pathname, Astro.site);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  image: heroImage ? new URL(heroImage, Astro.site).toString() : undefined,
+  datePublished: pubDate.toISOString(),
+  dateModified: updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Tristan Roscoe',
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Tristan Roscoe',
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': articleUrl.toString(),
+  },
+  keywords: tags.join(', '),
+};
 ---
 
 <BaseLayout title={title} description={description} image={heroImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <Header />
 
   <main id="main-content" class="flex-1" role="main">
